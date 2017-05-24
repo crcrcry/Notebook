@@ -1,3 +1,4 @@
-*/JavaScript书籍
-*/node_modules
+*.pdf
+.DS_Store
+node_modules/
 
