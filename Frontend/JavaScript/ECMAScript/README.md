@@ -1,0 +1,14 @@
+# ECMAScript
+- ECMAScript 5 核心：
+	- 阅读《JavaScript 高级程序设计》的笔记与心得。
+	- 对一些重点内容进行提取，其余内容可以查阅书籍。
+- ECMAScript 6 核心：
+	- 阅读《ECMAScript 6 入门》——阮一峰 的笔记与总结
+- ECMAScript 6 编程风格：
+	- Airbnb 的 JavaScript 编程规范。
+	- 探讨了如何将 ES6 新语法运用到编程实践中。
+- JavaScript 性能：
+	- 阅读《高性能 JavaScript》的笔记与总结。
+- JavaScript 排坑：
+	- 遇到过的 JavaScript 的一些坑点
+	- 还没想明白的一些 JavaScript 的问题
