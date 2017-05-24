@@ -309,8 +309,8 @@
 			- 必须在子类 constructor 中调用，因为子类没有自己的 this 对象，而是继承父类的 this 对象后再加工。
 			- ES5 的继承，即原型链继承，实质是先创造子类的实例 this，再将父类的方法添加到 this 上面。
 		- prototype 和 \_\_proto__：
-			- prototype：指向对象的原型 prototype 属性。
-			- \_\_proto__：指向对象的构造函数的 prototype 属性。 
+			- prototype：显式原型，指向对象的原型 prototype 属性。
+			- \_\_proto__：隐式原型，指向对象的构造函数的 prototype 属性。 
 			- class 作为构造函数语法糖，同时有这两个属性。
 				- 子类的 \_\_proto__ 属性，表示构造函数的继承，总是指向父类。
 				- 子类 prototype 属性的 \_\_proto__ 属性，表示方法的继承，总是指向父类的prototype 属性。
