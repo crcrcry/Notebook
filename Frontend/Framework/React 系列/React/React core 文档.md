@@ -20,7 +20,7 @@
 		1. 将 React 合成事件转化为 DOM 标准事件。
 		2. 源码中有一个转换关系：
 			- registrationName：React 注册事件名称，如：onClick
-			- registrationNameDependencies：将 React 注册事件名称转化为绑定在根节点的 topEvent 事件名称的依赖关系。如：onClick -> topClick
+			- registrationNameDependencies：React 事件和绑定在根节点的 topEvent 的转化关系，如：onClick -> topClick
 			- topEventMapping：topEvent 事件名称转化为标准 DOM 事件名称的映射关系。如：topClick -> click
 		3. 将事件、事件调度函数和挂载的节点绑定，并返回一个解绑的 remove 函数。同时处理了浏览器兼容。
 	2. 事件存储

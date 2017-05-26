@@ -63,7 +63,6 @@
 	state = {
    		fullName: `${props.firstName} ${props.lastName}`
    	};
-   	
    	render() {
    		var fullName = this.state.fullName;
 	   	return (
@@ -82,7 +81,6 @@
 	renderFullName () {
   		return `${this.props.firstName} ${this.props.lastName}`;
 	}
-
 	render () {
   		var fullName = this.renderFullName();
 	}
