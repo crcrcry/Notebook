@@ -13,11 +13,34 @@
 ## 3.1 自动绑定
 在 JavaScript 里创建回调的时候，为了保证 this 的正确性，一般都需要显式地绑定方法到它的实例上。有了 React.createClass，所有方法被自动绑定到了它的组件实例上。
 
-## 3.2 事件代理
-- React 实际并没有把事件处理器绑定到具体的节点本身。而是采用事件代理的模式：即事件委托技术，在根节点上为每种事件添加唯一的 Listener，即 addEventListener。然后通过事件的 target 找到真实的触发事件的 DOM 节点。这样从触发元素到顶层节点之间的所有节点如果有绑定这个事件，React 都会触发对应的事件处理函数。这就是所谓的 React 模拟事件系统。
+## 3.2 事件系统
+- 概述：React 实际并没有把事件处理器绑定到具体的节点本身。而是采用事件代理的模式，即事件委托技术，在根节点上为每种事件添加唯一的 Listener，即 addEventListener。然后通过事件的 target 找到真实的触发事件的 DOM 节点。这样从触发元素到顶层节点之间的所有节点如果有绑定这个事件，React 都会触发对应的事件处理函数。这就是所谓的 React 模拟事件系统。
+- 详细机制：
+	1. 事件注册
+		1. 将 React 合成事件转化为 DOM 标准事件。
+		2. 源码中有一个转换关系：
+			- registrationName：React 注册事件名称，如：onClick
+			- registrationNameDependencies：将 React 注册事件名称转化为绑定在根节点的 topEvent 事件名称的依赖关系。如：onClick -> topClick
+			- topEventMapping：topEvent 事件名称转化为标准 DOM 事件名称的映射关系。如：topClick -> click
+		3. 将事件、事件调度函数和挂载的节点绑定，并返回一个解绑的 remove 函数。同时处理了浏览器兼容。
+	2. 事件存储
+		- 概述：按照事件名和 React 组件对象进行了二维映射划分。
+		- 实现：
+			1. 将组件实例、React 注册事件名 registrationName、事件绑定函数传入函数 putListener。
+			2. 根据组件实例生成唯一的 key，将绑定函数存入 listenerBank[registrationName][key]。
+	3. 事件执行
+		1. 执行根节点上 addEventListener 注册的回调，即 ReactEventListener.dispatchEvent，事件分发入口函数。
+			1. 找到事件触发的 DOM 和 React Component。
+			2. 执行回调前，先由当前组件遍历得到所有父组件数组。
+			3. 从当前组件向父组件，依次执行注册的回调方法。
+				1. 根据 topEvent 构造 React 合成事件，eg：
+SyntheticMouseEvent。
+				2. 批处理合成事件。
 - 解决的问题：事件处理函数过多，事件重复绑定，形成重复函数，性能消耗大。eg：假设 list 有100项。
 
 	```
+	// 虽然你这么写了，但 React 仍旧事件委托，将 click 事件绑定到了根节点
+	// 但你的确生产了 100 个几乎一样的函数存储在了 listenerBank，消耗了内存
 	list.map((item,index) => {
     	<p onClick={() => this.clickHandler(item.name)} key={index}>{item}</p>
 	})
@@ -25,14 +48,47 @@
 	
 ## 3.3 组件状态机
 - React 把用户界面当成状态机，渲染不同组建的不同状态。state 更新时会自动重绘。
-- 哪些组件应该有 state：
-	- 大部分组件的工作应该是从 props 里取数据并渲染出来。但是，有时需要对用户输入、服务器请求或者时间变化等作出响应，这时才需要使用 State。
-	- 尝试把尽可能多的组件无状态化。这样做能隔离 state，把它放到最合理的地方，也能减少冗余并，同时易于解释程序运作过程。
-	- 常用的模式是创建多个只负责渲染数据的无状态（stateless）组件，在它们的上层创建一个有状态（stateful）组件并把它的状态通过 props 传给子级。这个有状态的组件封装了所有用户的交互逻辑，而这些无状态组件则负责声明式地渲染数据。
-- 哪些应该作为 State，哪些不应该：
-	- State 应该包括那些可能被组件的事件处理器改变并触发用户界面更新的数据，应该仅包括能表示用户界面状态所需的最少数据。
-	- State 不应该包括计算所得的数据，把所有的计算都放到 render() 里更容易保证用户界面和数据的一致性。
-	- State 不应该包括基于 props 的重复数据，尽可能使用 props 来作为惟一数据来源。把 props 保存到 state 的一个有效的场景是需要知道它以前值的时候。
+	- 哪些组件应该有 state：
+		- 大部分组件的工作应该是从 props 里取数据并渲染出来。但是，有时需要对用户输入、服务器请求或者时间变化等作出响应，这时才需要使用 State。
+		- 尝试把尽可能多的组件无状态化。这样做能隔离 state，把它放到最合理的地方，也能减少冗余并，同时易于解释程序运作过程。
+		- 常用的模式是创建多个只负责渲染数据的无状态（stateless）组件，在它们的上层创建一个有状态（stateful）组件并把它的状态通过 props 传给子级。这个有状态的组件封装了所有用户的交互逻辑，而这些无状态组件则负责声明式地渲染数据。
+	- 哪些应该作为 State，哪些不应该：
+		- State 应该包括那些可能被组件的事件处理器改变并触发用户界面更新的数据，应该仅包括能表示用户界面状态所需的最少数据。
+		- State 不应该包括计算所得的数据，把所有的计算都放到 render() 里更容易保证用户界面和数据的一致性。
+		- State 不应该包括基于 props 的重复数据，尽可能使用 props 来作为惟一数据来源。把 props 保存到 state 的一个有效的场景是需要知道它以前值的时候。
+- setState 更新机制：**批量更新策略 unfinished**
+![](https://segmentfault.com/image?src=http://gtms01.alicdn.com/tps/i1/TB1ZiadKpXXXXXGaXXXXsca3pXX-1774-1374.png&objectId=1190000003969996&token=9a539dd1a90661dbe891b5f2d300290b)
+- **Transaction unfinished**
+	- 概念：一个所谓的 Transaction 就是将需要执行的 method 使用 wrapper 封装起来，再通过 Transaction 提供的 perform 方法执行。而在 perform 之前，先执行所有 wrapper 中的 initialize 方法；perform 完成之后（即 method 执行后）再执行所有的 close 方法。一组 initialize 及 close 方法称为一个 wrapper。
+
+	```
+	/*
+	 * <pre>
+	 *                       wrappers (injected at creation time)
+	 *                                      +        +
+	 *                                      |        |
+	 *                    +-----------------|--------|--------------+
+	 *                    |                 v        |              |
+	 *                    |      +---------------+   |              |
+	 *                    |   +--|    wrapper1   |---|----+         |
+	 *                    |   |  +---------------+   v    |         |
+	 *                    |   |          +-------------+  |         |
+	 *                    |   |     +----|   wrapper2  |--------+   |
+	 *                    |   |     |    +-------------+  |     |   |
+	 *                    |   |     |                     |     |   |
+	 *                    |   v     v                     v     v   | wrapper
+	 *                    | +---+ +---+   +---------+   +---+ +---+ | invariants
+	 * perform(anyMethod) | |   | |   |   |         |   |   | |   | | maintained
+	 * +----------------->|-|---|-|---|-->|anyMethod|---|---|-|---|-|-------->
+	 *                    | |   | |   |   |         |   |   | |   | |
+	 *                    | |   | |   |   |         |   |   | |   | |
+	 *                    | |   | |   |   |         |   |   | |   | |
+	 *                    | +---+ +---+   +---------+   +---+ +---+ |
+	 *                    |  initialize                    close    |
+	 *                    +-----------------------------------------+
+	 * </pre>
+	 */
+ ```
 
 # 四、组件
 ## 4.1 复合组件
