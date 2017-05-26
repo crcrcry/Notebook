@@ -58,11 +58,14 @@
 3. caller：调用此函数的对象，不可写。
 
 ## 5.2 函数属性和方法
-1. length和prototype
-2. apply()和call()：在特定作用域中调用函数
-	1. apply的参数是：作用域、参数数组
-	2. call的参数是：作用域、所有参数枚举
-3. bind()：创建函数实例，并将this绑定到传给bind()的参数。
+1. length 和 prototype
+2. apply() 和 call()：在特定作用域中调用函数
+	1. apply 的参数是：作用域、参数数组
+	2. call 的参数是：作用域、所有参数枚举
+3. bind()：创建函数实例，并将 this 绑定到传给 bind() 的参数。
+4. apply / call 和 bind 的区别：
+	- apply / call 是在某作用域下立即去调用一个函数。
+	- bind 是返回一个绑定了作用域的函数实例，而不是调用。
 
 # 六、对象
 ## 6.1 特性
