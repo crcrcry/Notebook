@@ -8,3 +8,8 @@
 	- 一些尚未理解的问题的 mark
 	- ...
 - 大概每天会更新一次，汇总一天的阅读笔记、心得体会。
+- 常规 commit 格式：
+	- subject：x月x日 note
+	- description：
+		- 1. xxx
+		- 2. xxx
