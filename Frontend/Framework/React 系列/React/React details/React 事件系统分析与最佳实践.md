@@ -138,6 +138,7 @@ putListener: function (inst, registrationName, listener) {
 
 
 # 四、最佳实践
+- 希望看下面代码的同学能对 ES 2017 有所了解，我们希望我们写的代码能随时跟随 ECMAScript 的步伐。所以尽可能不再使用 ES 2015 提倡的 constructor，而是使用最新的ES 2017 类属性提案。
 - 回到这一段代码，相信大家现在明白这一段代码到底做了什么。
 
 	```
@@ -162,6 +163,8 @@ putListener: function (inst, registrationName, listener) {
 	})
 	```
 - 有些封装的很好的组件（eg：蚂蚁金服 ant design 的评分 Rate 组件），不默认传 event。就导致，有多个相同组件时，无法将所有组件的相同事件绑定在一个函数上，否则无法分辨是哪一个函数触发了事件。于是只能用 bind 或者箭头函数内部调用函数的方式来批量创建函数实例，极大的浪费了内存。如果大家有好的方法，也欢迎评论讨论。
+	- 解决方案，详见<a href="https://zhuanlan.zhihu.com/p/27132447">我的知乎专栏</a>
+		1. 外部封装一层组件
 	
 	
 	
