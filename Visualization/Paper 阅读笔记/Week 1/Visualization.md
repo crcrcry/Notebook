@@ -76,9 +76,9 @@
 	- 因此也有一些结论：
 		- 空间位置是最准确的视觉信道，统治了我们关于视觉编码的感知。所以两个最重要的数据属性可以分别映射到水平和垂直的空间位置中（x-y 轴）
 		- 其他的视觉信道基于不同的数据属性类型，表现不一。所以我们应该根据需求动态匹配选择。
-![](/Users/apple/Documents/Github/Notebook/Visualization/Paper 阅读笔记/Week 1/Images/1.png)	
+![](./Images/1.png)	
 - 下图为，一些常用的视觉信道映射，基于数据类型。 
-![](/Users/apple/Documents/Github/Notebook/Visualization/Paper 阅读笔记/Week 1/Images/2.png)
+![](./Images/2.png)
 - 视觉信道之间的关系
 	- 一些视觉信道是完整的、高度融合的、相互影响的，对于编码一些不同的数据属性来说，他们不是好的选择。
 	- 另一些是分离的、不相互影响的，对于编码多个数据属性较为安全。
@@ -86,7 +86,7 @@
 		- 颜色和位置是分离的。
 		- 水平尺寸和垂直尺寸是融合的、不容易区分的，人的视觉系统更容易自动整合它们，成为一种感觉。
 	- 关于尺寸：尺寸会影响许多信道，尺寸变小会难以分辨形状或颜色。
-![](/Users/apple/Documents/Github/Notebook/Visualization/Paper 阅读笔记/Week 1/Images/3.png)
+![](./Images/3.png)
 - 可视化的突出：
 	- 我们可以选择性的处理信道，来突出一些项。
 	- eg：
@@ -113,7 +113,7 @@
 		- 许多软件包都选择彩虹色图，彩虹色图有2个问题：
 			- 色调表示序列不好（量化总存在一个从小到大的特征），应该用亮度或者饱和度。
 			- 颜色等级在感知上不是线性的，可是量化上是线性的。eg：
-			![](/Users/apple/Documents/Github/Notebook/Visualization/Paper 阅读笔记/Week 1/Images/4.png)
+			![](./Images/4.png)
 			
 ## 5.3 2D vs 3D 空间布局
 			
