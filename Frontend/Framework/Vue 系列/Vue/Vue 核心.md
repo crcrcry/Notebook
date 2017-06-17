@@ -1,22 +1,34 @@
 # 一、概览
 ## 1.1 DOM and BOM
-1. DOM：Document Object Model，和document挂钩，html对象树(dom树)，一棵html元素的树。dom可以操纵html中的元素。
-2. BOM：Browser Object Model，和windows挂钩，控制浏览器的行为而出现的接口。
+1. DOM：Document Object Model，和 document 挂钩，html 对象树(dom 树)，一棵 html 元素的树。dom 可以操纵 html 中的元素。
+2. BOM：Browser Object Model，和 windows 挂钩，控制浏览器的行为而出现的接口。
 3. 总结：
 	1. DOM 是为了操作文档出现的 API，document 是其的一个对象；
 	2. BOM 是为了操作浏览器出现的 API，window 是其的一个对象。
 
-## 1.2 MVVM
-1. ViewModel
-	1. 管理view的dom对象，响应至model
-	2. 将model发出的directives发送至view
-2. View：被 Vue 实例管理的 DOM 节点。
-3. Model：一个轻微改动过的原生 JavaScript 对象。
+## 1.2 MVVM 与双向绑定
+![](http://image.beekka.com/blog/2015/bg2015020110.png)
+
+- MVVM：
+	-  ViewModel
+		- 概述：前端的业务逻辑
+		- ViewModel in Vue：
+			- 管理 view 的 dom 对象，响应至 model
+			- 将 model 发出的 directives 发送至 view
+	- View：
+		- 概述：前端视图、用户界面。
+		- View in Vue：被 Vue 实例管理的 DOM 节点。
+	- Model：
+		- 概述：后端的数据保存。
+		- Model in Vue：一个轻微改动过的原生 JavaScript 对象，数据。
+- 双向绑定：
+	- View 与 ViewModel 双向绑定
 
 # 二、语法
 ## 2.1 Vue 实例
-- Vue 实例：即 MVVM 中的 M，Model。用于对数据进行操作。
-- 语法：new Vue() 声明实例，传入一个选项对象。
+- 概述：
+	- MVVM 中的 ViewModel，组织着前端业务逻辑。
+	- 语法：new Vue() 声明实例，传入一个选项对象。
 - Vue 实例的属性、方法和选项
 	- 关系：属性和方法，很多都可以在实例选项中设置
 	- 实例选项
@@ -83,10 +95,13 @@
 
 ![](https://cn.vuejs.org/images/lifecycle.png)
 		
+		
 ## 2.2 Vue 模板
-- Vue 模板，即 MVVM 中的 V，View。用于展示视图。
+- 概述：
+	- MVVM 中的 View，组织着前端的视图。
+	- View 中的插值、指令都是为了和 ViewModel 进行相应的双向绑定，以实现相应功能。
 - 插值
-	- 作用：将 Model 中的变量值（数据对象、计算属性、props...）拿到视图 View 中使用。
+	- 作用：将 ViewModel 中的变量值（数据对象、计算属性、props...）拿到视图 View 中使用，此时会自动进行双向数据绑定。
 	- 基本语法：
 		- HTML 标签值：Mustache 语法，双大括号。支持 JavaScript 表达式，结果会解释为纯文本。
 		- HTML 属性值：
@@ -106,17 +121,16 @@
 - 指令：
 	- 作用：当其表达式的值改变时相应地将某些行为应用到 DOM 上。
 	- 指令列表：
-		- v-text
+		- v-text：
+			- 概述：更新元素的 textContent，如果要部分更新，请使用 Mustache 插值。
 		- v-html：
 			- 概述：更新元素的 innerHTML，被插入的内容都会被当做 HTML，而不会作为 Vue 模板编译。也就是说，数据绑定会被忽略，同时也不能插入组件。
 		- v-show：
 			- 概述：显示与隐藏，实际是切换 display CSS 属性。但带有 v-show 的元素始终会被渲染并保留在 DOM 中。
-		- v-if：
+		- v-if（v-else、v-else-if）：
 			- 概述：
 				- 条件渲染，切换过程中的确会适当的销毁和重建事件监听器、子组件等。
 				- 惰性的，在条件第一次为 true 时才会开始渲染条件代码块。
-		- v-else
-		- v-else-if
 		- v-for：
 			- 概述：
 				- 列表渲染，of、in 都可以用且都取到 value，不过 in 可以遍历对象属性。
@@ -126,13 +140,23 @@
 				- 数组更新检测中，Vue 不能检测以下变动的数组，建议最好用 Array 下的相应 API 操作数组：
 					- 当你利用索引直接设置一个项时，例如： vm.items[indexOfItem] = newValue
 					- 当你修改数组的长度时，例如： vm.items.length = newLength
-		- v-on
+		- v-on：
+			- 概述：v-on 指令监听 DOM 事件，并做出相应行为。
+			- 事件处理器：
+				- 方法事件处理器：将事件与方法绑定，默认传递 event 对象。
+				- 内联处理器方法：将事件与 JavaScript 内联语句绑定，若需要传递 event 对象可以用特殊变量 $event。
+			- 修饰符：v-on. 调用修饰符
+				- 事件修饰符
+				- 按键修饰符
 		- v-bind：
 			- 概述：动态地绑定一个或多个属性，或一个组件 prop 到表达式。
-		- v-model
+		- v-model：
+			- 概述：表单控件双向数据绑定，绑定的是 value 属性，会根据控件类型自动选取正确的方式更新元素。
+			- 修饰符：v-model. 调用修饰符。
 		- v-pre
 		- v-cloak
 		- v-once
+			- 概述：只渲染元素和组件一次。随后的重渲染将被视为静态内容并跳过，用于优化性能。
 	- 指令修饰符：以半角句号 . 指明的特殊后缀，用于指出一个指令应该以特殊方式绑定。
 - 特殊属性：
 	- key：
@@ -145,6 +169,9 @@
 	- slot
 
 ## 2.3 全局配置与全局 API
+- 全局配置
+- 全局 API
+
 
 ## 2.4 一些功能的多种实现比较
 - 计算属性 vs Methods
@@ -152,6 +179,8 @@
 - v-if vs v-show
 		
 		
+# 三、进阶
+## 3.1 组件化
 		
 		
 		
