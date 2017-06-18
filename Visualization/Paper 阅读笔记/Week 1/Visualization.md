@@ -198,14 +198,52 @@
 	- 概览和聚集
 	- 过滤和导航
 	- 聚焦+上下文技术
-	- 维度（属性）缩减
+	- 降维
 
 ## 8.1 概览和聚集
+- 概览：数据项太多，总体概览，同时提供多等级的概览和细节可视化展示。
+- 聚集：
+	- 一个可视化 mark 代表多个项。
+	- 聚集的挑战是，防止不恰当的总结，使聚集反而消除了人们的一些兴趣。
+
+## 8.2 过滤和导航
+- 过滤：过滤数据，显示子集。通常方式是让人们选择一个感兴趣的范围。
+- 导航：导航是过滤的一种，改变了观察数据集的视角。
+
+## 8.3 聚焦+上下文
+- 关键词：
+	- focus：focus items.
+	- context：all of the rest of the dataset shown.
+- 聚焦+上下文技术：
+	- 方式：
+		1. 通过变形、扭曲的方式，放大关注的区域，缩小上下文区域，并将二者集成一张视图。
+		2. 树状图部分展开，展开的节点即关注的部分，根和其他未展开节点即为上下文。（个人感觉不太好，看不清楚、操作麻烦）
+	- 解决的需求：通过缩放的方式来看关注的地方，会导致只能看到很小的一块区域。
+
+## 8.4 降维
+- 概述：数据的维度，即数据的属性。之前提到的方式都是减少（或忽略）数据项，而这种方法更强调减少数据的属性。
+- 方式：
+	1. 切片：只有一个数据项的某几个属性满足条件，才将该项放入切片中（感觉像过滤）
+	2. 投影：显示所有数据，但排除掉不想关注的数据属性。类似 3D->2D
 
 
+# 九、总结
+- 用可视化 example 的方式进行总结，具体见书。
+	- 表
+	- 图
+	- 树
+	- 地理
+	- 空间
 
+# 十、高频问题
+## Q1
+- What conferences and journals are good places to look for further information about visualization?
+- The IEEE VisWeek conference comprises three subconferences: InfoVis (Information Visualization), Vis (Visualization), and VAST (Visual Analytics Science and Technology). There is also a European EuroVis conference and an Asian PacificVis venue. Relevant journals include IEEE TVCG (Transactions on Visualization and Computer Graphics) and Palgrave Information Visualization.
 
-
+## Q2
+- What software and toolkits are available for visualization?
+- The most popular toolkit for spatial data is vtk, a C/C++ codebase available at www.vtk.org. For abstract data, the Java-based prefuse (http://www.prefuse. org) and Processing (processing.org) toolkits are becoming widely used. The ManyEyes site from IBM Research (www.many-eyes.com) allows people to upload their own data, create interactive visualizations in a variety of formats, and carry on conversations about visual data analysis.
+- 个人观点：感觉可视化工具好像用的比较多的都是 JavaScript?
 
 
 
