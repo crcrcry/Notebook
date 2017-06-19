@@ -29,19 +29,27 @@
 - 概述：
 	- MVVM 中的 ViewModel，组织着前端业务逻辑。
 	- 语法：new Vue() 声明实例，传入一个选项对象。
+	- Vue 实例需要挂载到视图上才能发挥作用。
 - Vue 实例的属性、方法和选项
 	- 关系：属性和方法，很多都可以在实例选项中设置
 	- 实例选项
 		- 数据：
-			- data：数据对象
-			- props
+			- data：
+				- 数据对象
+			- props：
+				- 父组件数据 props
 			- propsData
-			- computed：计算属性
-			- methods
-			- watch：监听器
+			- computed：
+				- 计算属性
+			- methods：
+				- 方法
+			- watch：
+				- 监听器
 		- DOM：
-			- el
-			- template
+			- el：
+				- 实例挂载 DOM
+			- template：
+				- 替换挂载元素的字符串模板
 			- render
 		- 生命周期钩子：
 			- beforeCreate
@@ -56,8 +64,10 @@
 			- destroyed
 		- 资源：
 			- directives
-			- filters：过滤器
-			- components
+			- filters：
+				- 过滤器
+			- components：
+				- 可用组件的哈希表
 		- 杂项：
 			- parent
 			- mixins
@@ -83,11 +93,16 @@
 			- vm.$delete
 		- 事件
 			- vm.$on
+				- 监听当前实例的自定义事件
 			- vm.$once
+				- 只监听一次
 			- vm.$off
+				- 移除事件监听器
 			- vm.$emit
+				- 触发事件
 		- 生命周期
 			- vm.$mount
+				- 手动挂载 Vue 实例
 			- vm.$forceUpdate
 			- vm.$nextTick
 			- vm.$destroy
@@ -120,6 +135,7 @@
 		- v-on -> @
 - 指令：
 	- 作用：当其表达式的值改变时相应地将某些行为应用到 DOM 上。
+	- 指令修饰符：以半角句号 . 指明的特殊后缀，用于指出一个指令应该以特殊方式绑定。
 	- 指令列表：
 		- v-text：
 			- 概述：更新元素的 textContent，如果要部分更新，请使用 Mustache 插值。
@@ -154,10 +170,12 @@
 			- 概述：表单控件双向数据绑定，绑定的是 value 属性，会根据控件类型自动选取正确的方式更新元素。
 			- 修饰符：v-model. 调用修饰符。
 		- v-pre
+			- 概述：跳过这个元素和它的子元素的编译过程。可以用来显示原始 Mustache 标签。跳过大量没有指令的节点会加快编译。
 		- v-cloak
+			- 概述：这个指令保持在元素上直到关联实例结束编译。
+			- 作用：和 CSS 规则如 [v-cloak] { display: none } 一起用时，这个指令可以隐藏未编译的 Mustache 标签直到实例准备完毕。
 		- v-once
 			- 概述：只渲染元素和组件一次。随后的重渲染将被视为静态内容并跳过，用于优化性能。
-	- 指令修饰符：以半角句号 . 指明的特殊后缀，用于指出一个指令应该以特殊方式绑定。
 - 特殊属性：
 	- key：
 		- 目的：用于标记元素的独立性。
@@ -165,15 +183,67 @@
 		- 用途：
 			- 结合 v-for 循环。
 			- 强制替换元素、组件，而不是重复使用。
-	- ref
-	- slot
+	- ref：
+		- 概述：子组件索引
+	- slot：
+		- 概述：内容分发，slot 对应
 
 ## 2.3 全局配置与全局 API
 - 全局配置
+	- 概述：
+		- Vue.config 是 Vue.js 的全局配置对象。
+		- 可以在应用启动前，通过 Vue.config.xxx 进行全局配置。
+		- 通常在入口文件 main.js 中进行配置工作。
+	- 可配置项：
+		- silent：
+			- 是否取消日志与警告
+		- optionMergeStrategies
+			- 自定义合并策略的选项。
+		- devtools：
+			- 是否允许检查代码
+		- errorHandler
+			- 错误处理器
+		- ignoredElements
+			- 忽略自定义元素
+		- keyCodes
+			- v-on 自定义键位别名
+		- performance
+			- 在浏览器开发者模式中，启用对组件初始化、渲染和打补丁的性能追踪
+		- productionTip
+			- 生产提示生成
 - 全局 API
+	- Vue.extend
+		- 使用基础 Vue 构造器，创建一个“子类”。
+	- Vue.nextTick
+		- 在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。
+	- Vue.set
+		- 设置对象的属性。
+	- Vue.delete
+		- 删除对象的属性。
+	- Vue.directive
+		- 注册或获取全局指令。
+	- Vue.filter
+		- 注册或获取全局过滤器。
+	- Vue.component
+		- 注册或获取全局组件。
+	- Vue.use
+		- 安装 Vue.js 插件。
+	- Vue.mixin
+		- 全局注册一个混合。
+	- Vue.compile
+		- 在 render 函数中编译模板字符串。
 
+## 2.4 内置组件
+- component
+	- 渲染动态组件
+- transition
+- transition-group
+- keep-alive
+	- 缓存动态组件中不活动的组件实例
+- slot
+	- 内容分发插槽
 
-## 2.4 一些功能的多种实现比较
+## 2.5 一些功能的多种实现比较
 - 计算属性 vs Methods
 - 计算属性 vs Watched 属性
 - v-if vs v-show
@@ -181,7 +251,33 @@
 		
 # 三、进阶
 ## 3.1 组件化
-		
+- 单个组件
+	- 注册：
+		- 概览：就类似于，将一个 Vue 实例挂载到一个自定义的 HTML 标签下。
+		- 方式：全局注册、局部注册。
+	- 动态组件：
+		- 通过使用保留的 \<component> 元素，动态的绑定到它的 is 特性，来让多个组件使用同一挂载点，并动态切换。
+		- 利用 \<keep-alive> 将切换出去的组件保存在缓存，避免重渲染。
+	- 可复用组件：
+		- Props 允许外部环境传递数据给组件
+		- Events 允许组件触发外部环境的副作用
+		- Slots 允许外部环境将额外的内容组合在组件中。
+	- 异步组件：
+		- 按需下载模块
+- 父子组件：
+	- 概览：props down, events up
+	- props：
+		- 单向数据流，父->子
+		- props 验证
+	- 自定义事件：
+		- 子组件传递数据给父组件
+		- 也可用于非父子组件通信，创建中央事件总线 bus 来转发，麻烦
+	- .sync：
+		- props 双向绑定，本质是一个语法糖，自动帮人们完成了 props 和自定义事件
+	- 内容分发
+		- 概述：父组件内容可能和子组件模板混合，需要合理安排。
+		- 方式：子组件模板中的 \<slot> 插口接受父组件内容。 
+
 		
 		
 		
