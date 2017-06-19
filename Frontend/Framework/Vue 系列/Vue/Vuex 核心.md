@@ -169,7 +169,7 @@
 			- 和 Vue 组件内的 data 是同样的问题。因此解决办法也是相同的，使用一个函数来声明模块状态
 			- example：
 				
-			```
+			```javascript
 			const MyReusableModule = {
 			  state () {
 			    return {
