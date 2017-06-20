@@ -89,8 +89,11 @@
 	- 实例方法
 		- 数据
 			- vm.$watch
+				- 观察实例变化
 			- vm.$set
+				- 类似 Vue.set
 			- vm.$delete
+				- 类似 Vue.delete
 		- 事件
 			- vm.$on
 				- 监听当前实例的自定义事件
@@ -105,6 +108,7 @@
 				- 手动挂载 Vue 实例
 			- vm.$forceUpdate
 			- vm.$nextTick
+				- 类似 Vue.nextTick
 			- vm.$destroy
 - 生命周期图示
 
@@ -237,6 +241,7 @@
 - component
 	- 渲染动态组件
 - transition
+	- 动画组件
 - transition-group
 - keep-alive
 	- 缓存动态组件中不活动的组件实例
@@ -278,10 +283,78 @@
 		- 概述：父组件内容可能和子组件模板混合，需要合理安排。
 		- 方式：子组件模板中的 \<slot> 插口接受父组件内容。 
 
+## 3.2 响应式
+- 变化追踪
+	- 原理：
+		- ECMAScript5 包含两种对象属性：数据属性和访问器属性。
+		- Object.defineProperty 可以修改属性特性。
+		- 遍历状态 data 的所有属性，利用 Object.defineProperty 将属性全部转为 getter/setter 访问器属性。
+- 变化检测
+	- 原理：
+		- Vue 会在初始化实例时对属性执行 getter/setter 转化过程，所以属性必须在 data 对象上存在才能让 Vue 转换它，这样才能让它是响应的。
+		- 受现代 JavaScript 的限制（以及废弃 Object.observe），Vue 不能检测到对象属性的添加或删除。但可以通过全局 API Vue.set 或者实例方法 vm.$set 的方式来添加响应式属性。
+- 异步更新队列
+	- 概述：
+		- 一个事件循环中，所有的数据改变推入一个队列中。
+		- 在下一个事件循环“tick”时，Vue 刷新队列，执行（已去重的）工作。
+	- 新的需求：
+		- 有时需要在数据变化后等待 Vue 更新 DOM 后，立即做点什么。
+	- 解决方式：
+		- Vue.nextTick(callback)
+
+## 3.3 过渡
+### 3.3.1 过渡效果
+- Vue 提供多种不同的方式应用过渡效果：
+	- 在 CSS 过渡和动画中自动应用 class
+		- CSS 过渡：
+			- CSS 过渡属性：transform 和 transition
+		- CSS 动画
+			- CSS 动画属性：animation 和 @keyframes
+		- 内置类名：
+			- 六个内置 CSS 类名在 enter/leave 的过渡中切换：
+				- v-enter
+				- v-enter-active
+				- v-enter-to
+				- v-leave
+				- v-leave-active
+				- v-leave-to
+			- v- 是类名前缀，可以通过 \<transition> 的 name 属性更改前缀
+		- 自定义类名：
+			- 四个特性来自定义过渡 CSS 类名，优先级高于普通类名：
+				- enter-class
+				- enter-active-class
+				- leave-class
+				- leave-active-class
+			- 便于结合第三方 CSS 动画库使用，如 Animate.css
+	- 在过渡钩子函数中使用 JavaScript 直接操作 DOM
 		
-		
-		
-		
+		```javascript
+		<transition
+		  v-on:before-enter="beforeEnter"
+		  v-on:enter="enter"
+		  v-on:after-enter="afterEnter"
+		  v-on:enter-cancelled="enterCancelled"
+		  v-on:before-leave="beforeLeave"
+		  v-on:leave="leave"
+		  v-on:after-leave="afterLeave"
+		  v-on:leave-cancelled="leaveCancelled"
+		>
+		  <!-- ... -->
+		</transition>
+		```
+	- 可以配合使用第三方 JavaScript 动画库，如 Velocity.js
+- 初始渲染的过渡：appear
+- ...（先 pass，用到再说）
+
+### 3.3.2 过渡状态
+- ...（先 pass，用到再说）
+
+
+
+
+
+
+
 		
 		
 		
