@@ -134,7 +134,113 @@
 
 # 五、Hierarchies
 - 一些数据集仅仅是数据的水平向收集，但更多的数据集是有纵向层次结构的。甚至有的数据集，即便没有明显的层次结构，通过统计学方法也可以转为有层次结构的数据集。
+- 本章节所用 example， 全部都是“软件中，类的包层次结构”。
 
-# 六、网络
+## 5.1 Node-link Diagrams
+- 背景：树的分支可以反映数据的嵌套。
+- 定义：树的二维形式 -> node-link diagram
+- 树形布局算法：
+	- Reingold Tilford algorithm
+		- 特点：
+			- 整齐、空间浪费较少。
+	- Dendrogram (or cluster) algorithm
+		- 特点：
+			- 叶子节点放于同一层，更高效的使用空间。
+	- Indented tree
+		- 特点：
+			- 锯齿状结构，类似操作系统的文件系统。
+			- 要求较高的纵向空间、不利于多层次的阅读推断、难以整体把握。
+			- 寻找特定节点的效率很高。
+			- 允许节点标签的快速扫描、且可以在层次结构旁显示多个数据（比如文件大小）。
+
+![](./Images/d1.png)		
+![](./Images/d2.png)
+![](./Images/d3.png)		
+
+## 5.2 Adjacency Diagrams
+- 定义：
+	- 邻接图，node-link diagram 的空间填充变体。
+	- 节点会以密实区域的形式展现（弧形、长条...）而不是简单链接父子节点。
+	- 用节点相对邻接节点的放置位置，来表现层次结构。
+- 展现形式：
+	- 柱形布局：
+		- 类似第一张 node-link diagram。
+		- 但拥有了更多的可编码元素，可以展现数据的更多属性。比如说：用长度编码类和包的尺寸。
+	- sunburst 布局：
+		- 等价于柱形布局，但在一个不同的坐标系中（笛卡尔坐标系、极坐标系）。
+
+![](./Images/d4.png)	
+![](./Images/d5.png)	
+
+## 5.3 Enclosure Diagrams
+- enclosure：圈占。
+- 定义：
+	- 也是一种空间填充图，使用包容而不是邻接来表现层次结构。
+- 展现形式：
+	- Squarified treemaps：
+		- 定义：立方化的树图，递归的用矩形来划分区域。常使用填充来强调 Enclosure。
+		- 特点：更好的可读性和尺寸估计。
+	- Circles：
+		- 定义：填充圆而不是分块矩形。
+		- 特点：空间浪费较大，但也利于有效展现层次结构、且同一区域下的节点大小更利于比较。
+
+![](./Images/d6.png)	
+![](./Images/d7.png)	
+
+# 六、Networks
+- 背景：
+	- In addition to organization, one aspect of data that we may wish to explore through visualization is relationship.
+	- 除了数据组织（数据属性之间的关系）之外，我们还需要探索不同类型数据之间的关系。
+	- 就我的理解来说，人是一种类型的数据对象，狗也是一种类型的数据对象。而所有人、所有狗，分别形成两个数据集。Hierarchy and Network 之前我们探讨的是一个数据集中的数据（不同的人有不同的身高体重），现在我们讨论不同的数据集之间（狗是人的朋友）。
+- Hierarchy 和 Network 的关系：
+	- Abstractly, a hierarchy is a specialized form of network（each node has exactly one link to its parent, while the root node has no links.）.
+	- 就我的理解来说，hierarchy and network 的关系等价于 tree and graph。
+- Network 的布局算法：
+	- 由于 Network 不像 Hierarchy 一样有着层次结构，所以 Network 需要不同的布局算法来安置 nodes and links。
+	- 布局算法的挑战在于计算一个有效的布局，nodes 间关系的复杂化导致 nodes 的相对位置难以决定。
+
+## 6.1 Force-directed Layouts
+- 定义：网络布局的一种常见且直观的方法是将图形建模为物理系统：节点是互相排斥的带电粒子，而链路则是将相关节点拉到一起的阻尼弹簧。这个物理模型模拟的相对作用力，决定了节点的位置。
+- 特点：
+	- 容易表达整体结构。
+	- 网络庞大、节点高度连接时，容易变成难以读懂的一大团球。
+
+![](./Images/e1.png)	
+
+## 6.2 Arc Diagrams
+- 定义：一维布局，放置所有节点、圆弧连接代表相关关系。
+- 特点：
+	- 相对二维、三维布局，难以表达整体结构。
+	- 但具有良好的节点次序，容易识别集群和连接关系。
+	- 类似缩进树布局（chapter 5.1），多元数据可以显示在节点旁边。
+
+![](./Images/e2.png)	
+
+## 6.3 Matrix Views
+- 定义：类似邻接矩阵。矩阵中 i 行 j 列的值代表 nodeI 和 nodeJ 的连接关系。
+- 特点：
+	- 类似于 Arc Diagram，难以表达整体结构，但具有良好的节点次序，容易识别集群和连接关系。
+	- path-following 比较困难。
+	- 网络庞大、节点高速连接时，有效的排序节点也能很好的发现集群和连接关系。
+
+![](./Images/e3.png)	
+
+## 6.4 总结
+- Force-directed Layouts
+- Arc Diagrams and Matrix Views
+- 上述两组分别解决了两组对应需求。
 
 # 七、结论
+- 虽然展示了很多视觉编码和交互技术，但仍有更多的方法存在和等待发现。
+- 但可视化的潜在 DNA 是相同的：数据属性 -> 可视化特征（位置、形状、尺寸、颜色...）
+
+
+
+
+
+
+
+
+
+
+
