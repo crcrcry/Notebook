@@ -1,0 +1,12 @@
+# 关于如何进行优雅的 Git 操作
+- 需求：
+	- 大家都 push 到 master，冲突时就解决冲突同时新建一个 commit，是非常不优雅的，master 分支的 commit 很混乱，很难进行 code review。
+- 解决方案：
+	- git branch、git checkout，熟练通过 git 分支来进行开发。
+	- git merge，开发完成的部分合入 master。
+	- git rebase，在 master 中通过 rebase 将 commit 整理好。
+- 效果：
+	- dev 分支是每次 commit 留下的历史。
+	- master 是整理好的阶段性 commit 历史。
+- 缺陷：
+	- 多人合作开发的优雅的解决方案，尚未想好。也许通过多分支？
