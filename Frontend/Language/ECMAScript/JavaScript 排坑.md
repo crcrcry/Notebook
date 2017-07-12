@@ -9,7 +9,7 @@
 
 - new 一个 Promise 时会立即运行构造函数传入的函数，resolve/reject 时异步改变状态。
 - reject 与 错误：
-	- Promise 调用 reject 和 resolve 时只是表现它们的状态改变，而不是抛出错误（除非手动 throw new Error）。
+	- Promise 调用 reject 和 resolve 时只是表现它们的状态改变，而不是抛出错误（除非手动 throw new Error），不过 reject 的确是通过 catch（then 中、try ... catch 中、或 Promise.catch 中）来捕获状态的改变。
 	- 但 Promise 抛出错误时默认是 reject 状态（除非手动 resolve）。
 
 ![](./Images/js排坑6.jpeg)
@@ -67,13 +67,14 @@ console.log(y)
 ## 1.6 JavaScript 错误处理
 - 别人封装好的也是通过 throw new Error() 来手动抛出而已，要习惯抛出错误并 try ... catch 处理，而不是仅仅返回值与信息。
 - try ... catch ... finally，finally 一定能执行，不管 try ... catch 做了什么。
+- throw 抛出异常能立刻停止代码的运行，除了 finally。直到有一个 catch 来捕捉处理它。如果没有则中断程序执行。
 - 关于同步抛出的错误和异步抛出的错误：
 	- 同步没啥好说的
-	- 异步抛出的错误，try ... catch 代码块已经运行结束了，会导致 catch 捕获不到异步中抛出的错误，只能异步 catch。
+	- 异步抛出的错误，try ... catch 代码块已经运行结束了，会导致 catch 捕获不到异步中抛出的错误，只能异步 catch。即通过 await 或者 promise 将异步转化为同步即可正确处理。另外图3两段代码意义相同写法不同，可以加深理解。
 	- eg：
 
 ![](./Images/js排坑4.jpeg)
 ![](./Images/js排坑5.jpeg)
-
+![](./Images/js排坑10.jpeg)
 
 # 二、尚未理解
