@@ -101,7 +101,7 @@ console.log(y)
 			return this;
 		}
 		```
-	- 当使用 function person 声明变量时，实际做了
+	- 当使用 function person 声明变量时，实际做了如下操作，当然，prototype 可以重写。
 
 		```
 		person.__proto__ = Object
