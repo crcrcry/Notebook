@@ -4,7 +4,8 @@ class Hello extends Component{
   render() {
     return (
       <div>
-        Hello, This is crcrcry's first React Project!
+        Hello, This is crcrcry's first React Project!<br/>
+        Nice to meet you!
       </div>
     );
   }

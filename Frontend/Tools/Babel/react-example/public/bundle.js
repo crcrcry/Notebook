@@ -9549,7 +9549,7 @@ var Hello = function (_Component) {
       return _react2.default.createElement(
         'div',
         null,
-        'Hello, This is crcrcry\'s first React Project!'
+        'Hello, This is crcrcry\'s first React Project! Nice to meet you!'
       );
     }
   }]);

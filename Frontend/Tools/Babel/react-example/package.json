@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "start": "webpack-dev-server --content-base ./ --port 3456"
+    "start": "webpack-dev-server --content-base ./ --port 2222"
   },
   "author": "",
   "license": "ISC",
