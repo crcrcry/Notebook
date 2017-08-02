@@ -1,5 +1,6 @@
 *.pdf
 .DS_Store
+.idea/
 node_modules/
 CSS/
 HTTP/
