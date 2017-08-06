@@ -148,9 +148,18 @@ SyntheticMouseEvent。
 	- render() 方法返回一个 DOM 的描述，React 能够利用内存中的描述来快速地计算出差异，然后更新浏览器中的 DOM。
 	- 多数时候你应该呆在 React 的“虚拟浏览器”世界里面，因为它性能更加好，并且容易思考。但是，也有时需要调用底层的API，React 也提供直接使用底层 DOM API 的途径。
 	- 优点：React 能够等到事件循环的结尾, 而在之前完全不用操作真实的 DOM。在这基础上, React 计算出几乎最小的 diff, 以最小的步骤将 diff 作用到真实的 DOM 上。批量处理 DOM 操作和作用最少的 diff 极大的提高了性能。
-- Refs 和 getDOMNode()
-	- 每一个挂载的 React 组件有一个 getDOMNode() 方法，你可以调用这个方法来获取对该节点的引用。若组件未被挂载（也就是未被放进 DOM），会抛出一场。
-	- 为了获取一个到 React 组件的引用，你可以使用 this 来得到当前的 React 组件，接着你可以通过设置的 refs 属性来指向一个你拥有的组件实例（ref也可以是回调函数），再调用 getDOMNode() 或 React.findDOMNode(this.refs.xxx) 直接访问组件的 DOM 节点。
+- React 与 DOM
+	- DOM 实例与组件实例的关系：
+		- DOM 实例就是 DOM 中定义的文档对象。
+		- 组件实例是一个复杂对象，不仅包括 DOM，还包括 props、state 等属性。
+	- ReactDOM.findDOMNode(xxx)：获取 xxx 的 DOM 实例。但破坏了组件的封装性，建议用更好的代码代替此操作。
+	- ref：通过设置 ref 属性，获取实例。因此可以调用该实例下 API 和操作非私有属性。
+		- 原生 DOM 获取 DOM 实例。
+		- 组件获取组件实例。
+	- refs：可以获取所有设置了 ref 属性的实例集合。
+	- example：
+		- \<input> 的实例，就是一个 HTMLInputElement 对象实例。调用 findDOMNode() 以后其实没有变化，=== 判断返回 true。
+		- 自定义组件 \<test> 的实例得到一个继承于 ReactComponent 的复杂对象。调用 findDOMNode() 以后得到 \<h1>hello world\</h1>，一个 HTMLHeadingElement 对象实例。
 - 组件生命周期
 	- 生命周期的三个主要部分：
 		- 挂载：组件被插入到 DOM 中。

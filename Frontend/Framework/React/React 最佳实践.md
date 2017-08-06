@@ -5,11 +5,13 @@
 - 把数据放在哪里：
 	- 组件树不是很复杂的小应用：所有的数据请求和管理都存放在唯一的一个根组件
 	- 设置多个容器组件来负责数据请求和状态管理。
-		- 展示性组件（Presentation Component）/ 无状态函数式组件
+		- 展示性组件（Presentation Component
 			- 关注视图，不关注数据的获取和改变
 			- 一般有 DOM 和 CSS
 			- 通过 props 获取数据和回调
 			- 基本没有自己的状态，即使有，也是 UI 状态
+		- 无状态函数式组件
+			- 无状态组件只是方法调用（没有 extends React.Component），只接受 props 和 context，没有新建实例。所以不存在生命周期、refs 等操作。
 		- 容器性组件（Container Component）
 			- 关注如何运行工作，关注业务逻辑
 			- 大都不含 DOM 标签，只含其他组件
