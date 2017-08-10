@@ -7,6 +7,7 @@
     "webpack-dev-server": "^2.4.1"
   },
   "scripts": {
-    "start": "webpack-dev-server --content-base ./public/ --port 2345 --colors true --inline true"
+    "start": "webpack-dev-server --content-base ./public/ --port 2345 --colors true --inline true",
+    "build": "webpack"
   }
 }
