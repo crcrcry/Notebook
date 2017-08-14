@@ -5,20 +5,20 @@
 - new Promise 的 resolve 和 reject 函数用于改变 Promise 状态。then保证顺序执行。
 
 ## 1.2 Promise 原理
-![](./Images/js排坑2.png)
+![](../Images/js排坑2.png)
 
 - new 一个 Promise 时会立即运行构造函数传入的函数，resolve/reject 时异步改变状态。
 - reject 与 错误：
 	- Promise 调用 reject 和 resolve 时只是表现它们的状态改变，而不是抛出错误（除非手动 throw new Error），不过 reject 的确是通过 catch（then 中、try ... catch 中、或 Promise.catch 中）来捕获状态的改变。
 	- 但 Promise 抛出错误时默认是 reject 状态（除非手动 resolve）。
 
-![](./Images/js排坑6.jpeg)
+![](../Images/js排坑6.jpeg)
 
 - Promise 对象的错误具有“冒泡”性质，会一直向后传递，直到被捕获为止。
 - 一个 Promise 最好写好 rejectHandler，没有 resolveHandler 不会怎么样，但没有 rejectHandler 会报 warning。
 
-![](./Images/js排坑7.jpeg)
-![](./Images/js排坑8.jpeg)
+![](../Images/js排坑7.jpeg)
+![](../Images/js排坑8.jpeg)
 
 ## 1.3 async/await 原理
 - await 后跟的实际上都是 Promise 对象。
@@ -29,8 +29,8 @@
 	- 第二个函数中，setTimeout 中 return 没有什么意义，函数实际上最后有一个 return null，setTimeout 异步执行去了。
 - 在下面的例子2，表现了 async/await、generator/yield、promise 的关系。
 
-![](./Images/js排坑3.png)
-![](./Images/js排坑9.jpeg)
+![](../Images/js排坑3.png)
+![](../Images/js排坑9.jpeg)
 
 ## 1.4 \_\_proto\_\_ 与 prototype
 - 是什么
@@ -63,7 +63,7 @@ console.log(x)
 console.log(y)
 ```
 
-![](./Images/js排坑1.png)
+![](../Images/js排坑1.png)
 
 ## 1.6 错误处理
 - 别人封装好的也是通过 throw new Error() 来手动抛出而已，要习惯抛出错误并 try ... catch 处理，而不是仅仅返回值与信息。
@@ -76,9 +76,9 @@ console.log(y)
 		- 即通过 await 或者 promise 将异步转化为同步即可正确处理。另外图3两段代码意义相同写法不同，可以加深理解。
 	- eg：
 
-![](./Images/js排坑4.jpeg)
-![](./Images/js排坑5.jpeg)
-![](./Images/js排坑10.jpeg)
+![](../Images/js排坑4.jpeg)
+![](../Images/js排坑5.jpeg)
+![](../Images/js排坑10.jpeg)
 
 ## 1.7 new 操作符
 - 构造函数的作用是构造一个对象，假设我们有一个构造函数：
