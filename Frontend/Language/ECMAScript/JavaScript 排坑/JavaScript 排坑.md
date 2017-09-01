@@ -111,4 +111,12 @@ console.log(y)
 - obj instanceof Object
 	- 实际上是在 obj 的原型链中寻找 Object.prototype。
 
+## 1.9 如何跨域
+- CORS
+- 标签：Image、Script（JSONP）
+- websocket
+- 代理服务器
+	- 服务器发请求，不算跨域
+	- 这样可以在请求 百度 API 这些，你不可能给后端加上 CORS 的地方，进行跨域
+
 # 二、尚未理解
